@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+# Artbrain Notification App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application stores custom notifications and spams user with them until he decides to shut them off.
+
+## No authorization
+The app creates a user every time a person enters it using a new browser window.
+stores current user in session storage until new window is opened.
+
+## Creating Types
+You can create custom notification types and pick a custom color, image of your choice, and name of type.
+
+## Creating Notification Texts
+Creating new texts using the types you created. you may enter a text of your choice, and the app will alter it according to the following rules:
+- if text contains the word "Sale" in it, appends a "!" and the end of the text.
+- if text contains the word "Big" in it, preppends a "~ ~" at the end of the text.
+- if text contains the phrase "Limited Edition", it upper-caps it.
+
+## Shutting off push notifications
+
+JUST CLICK ON THEM
 
 ## Available Scripts
 
