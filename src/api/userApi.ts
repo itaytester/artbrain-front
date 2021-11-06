@@ -1,5 +1,4 @@
 import axios from "axios";
-import User from "../common/types/user";
 
 export default class UserApi {
 

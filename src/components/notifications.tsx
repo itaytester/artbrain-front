@@ -6,27 +6,46 @@ import AddType from "./addType";
 import AddText from "./addText";
 import Notification from "../common/types/notification";
 import { useEffect, useState } from "react";
+import { Clear } from "@mui/icons-material";
 
 interface IProps {
   notification: Notification | undefined;
 }
 
-const NotificationComponent: React.FC<Notification> = ({text, user}) => {
-  //const [color, setColor] = useState<string>(props.text?.type?.color);
-  console.log("render");
+interface NotificationProps extends Notification {
+  clickedNotification: (id: string) => Promise<void>;
+}
+
+const NotificationComponent: React.FC<NotificationProps> = ({
+  text,
+  _id,
+  clickedNotification,
+}) => {
+
+  const close = async (id: string) => {
+    await clickedNotification(id);
+  }
   return (
     <div
       className="notification-width"
-      style={{backgroundColor: text?.type?.color}}
+      onClick={(e) => close(_id)}
+      style={{
+        backgroundColor: text?.type?.color?.primary,
+        border: `1px solid ${text?.type?.color?.dark}`,
+      }}
     >
       <div style={{ display: "flex", alignItems: "center" }}>
         <img
+          className="notification-icon"
           src={`${NotificationApi.url}/image/${text?.type?.img}`}
           style={{ width: "64px", height: "64px", marginLeft: ".5rem" }}
           alt=""
         />
-        <div>
-          <h4>{text.text}</h4>
+        <div className="notification-text">
+          <h4 style={{ color: text?.type?.color?.dark }}>{text.text}</h4>
+        </div>
+        <div className="notification-clear">
+          <Clear style={{ color: text?.type?.color?.dark }} />
         </div>
       </div>
     </div>
@@ -40,23 +59,35 @@ const Notifications: React.FC<IProps> = ({ notification }) => {
     NotificationType
   >(`${NotificationApi.url}/types`, null);
 
-  useEffect(() => {
-    if (notification) renderNotification(notification);
-  }, [notification]);
+  const clickedNotification = async (id: string) => {
+    setSkip(true);
+    await NotificationApi.notificationClicked(id);
+  };
 
   const renderNotification = (notification: Notification) => {
     store.addNotification({
       content: () => {
-        return <NotificationComponent {...notification} />;
+        return (
+          <NotificationComponent
+            {...notification}
+            clickedNotification={clickedNotification}
+          />
+        );
       },
-      container: "bottom-right", // where to position the notifications
+      container: "bottom-right",
       animationIn: ["animate__animated", "animate__fadeIn"],
       animationOut: ["animate__animated", "animate__fadeOut"],
       dismiss: {
         duration: notification.user.notificationDuration,
+        click: true,
       },
     });
   };
+
+  useEffect(() => {
+    if(notification && !skip) renderNotification(notification);
+    if(skip) setSkip(false);
+  }, [notification]);
 
   return (
     <div className="container">
@@ -66,8 +97,6 @@ const Notifications: React.FC<IProps> = ({ notification }) => {
         isTypesError={isTypesError}
         isTypesLoading={isTypesLoading}
       />
-
-      {notification && <NotificationComponent {...notification}/>}
     </div>
   );
 };

@@ -3,16 +3,13 @@ import {
   TextField,
   Button,
   Select,
-  MenuItem,
   CircularProgress,
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { SelectChangeEvent } from '@mui/material/Select';
+import { SelectChangeEvent } from "@mui/material/Select";
 import NotificationApi from "../api/notificationApi";
-import NotificationText, {
-  NotificationTextRequest,
-} from "../common/types/notificationText";
+import { NotificationTextRequest } from "../common/types/notificationText";
 import NotificationType from "../common/types/notificationType";
 
 interface IProps {
@@ -22,18 +19,19 @@ interface IProps {
 }
 
 const AddText: React.FC<IProps> = ({ isTypesLoading, isTypesError, types }) => {
-  const { register, handleSubmit, watch, setValue, reset } = useForm<NotificationTextRequest>();
+  const { register, handleSubmit, watch, setValue, reset } =
+    useForm<NotificationTextRequest>();
   const select = watch("notificationType");
   const onSubmit: SubmitHandler<NotificationTextRequest> = async (data) => {
     await NotificationApi.addTexts(data);
     reset();
   };
 
-  const handleSelectChange = (e:SelectChangeEvent<string>) => {
-    setValue('notificationType', e.target.value, {
-      shouldDirty: true
+  const handleSelectChange = (e: SelectChangeEvent<string>) => {
+    setValue("notificationType", e.target.value, {
+      shouldDirty: true,
     });
-  }
+  };
 
   const renderDrowDown = () => {
     return (
@@ -42,11 +40,11 @@ const AddText: React.FC<IProps> = ({ isTypesLoading, isTypesError, types }) => {
           <InputLabel id="types-select">Type</InputLabel>
           <Select
             native
-            {...register('notificationType')}
+            {...register("notificationType")}
             labelId="types-select"
             label="Type"
             value={select}
-            onChange={e => handleSelectChange(e)}
+            onChange={(e) => handleSelectChange(e)}
           >
             {types &&
               (types as NotificationType[]).map((type) => (
@@ -66,7 +64,6 @@ const AddText: React.FC<IProps> = ({ isTypesLoading, isTypesError, types }) => {
         {...register("text")}
         id="filled-error"
         label="Notification Text"
-        defaultValue="Enter Text"
         variant="outlined"
         className="type-line"
       />

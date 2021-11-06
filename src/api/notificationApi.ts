@@ -33,7 +33,7 @@ export default class NotificationApi {
         return {...response.data, id: response.data._id};
     }
 
-    static async notificationClicked(id:number): Promise<Notification> {
+    static async notificationClicked(id:string): Promise<Notification> {
         const response = await axios.post(`${this.url}/notificationClicked/${id}`)
         return {...response.data, id: response.data._id};
     }

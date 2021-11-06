@@ -1,7 +1,11 @@
 interface NotificationType {
     _id: string,
     img: string,
-    color: string,
+    color: {
+        light: string,
+        primary: string,
+        dark: string
+    },
     name: string
 }
 

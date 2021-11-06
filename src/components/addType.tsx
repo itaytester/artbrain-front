@@ -1,8 +1,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { TextField, Button, FormLabel } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { NotificationTypeRequest } from "../common/types/notificationType";
 import NotificationApi from "../api/notificationApi";
-import NotificationType, { NotificationTypeRequest } from "../common/types/notificationType";
 
 interface IProps {
     refetchTypes: () => Promise<void>;
@@ -28,7 +28,6 @@ const AddType:React.FC<IProps> = ({refetchTypes}) => {
         {...register("name")}
         id="filled-error"
         label="Notification Name"
-        defaultValue="Hello World"
         variant="outlined"
         className="type-line"
       />

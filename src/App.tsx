@@ -11,7 +11,7 @@ import './App.css';
 
 const App = () => {
   const [currNotification, setCurrNotification] = useState<Notification>();
-  const [client, setClient] = useState<Socket>(io("http://localhost:8080/"))
+  const [client] = useState<Socket>(io("http://localhost:8080/"))
   const [user, setUser] = useSessionStorage<User>('user');
 
   useEffect(()=> {
