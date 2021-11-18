@@ -1,4 +1,4 @@
-# Artbrain Notification App
+# Notification App
 
 This application stores custom notifications and spams user with them until he decides to shut them off.
 
